@@ -1,9 +1,5 @@
 name = "mie-ayam"
 compatibility_date = "2024-06-09"
-pages_build_output_dir = "public"
-
-[build]
-command = "npm run build"
 
 [vars]
 APP_ENV = "production"
@@ -16,7 +12,3 @@ FILESYSTEM_DISK = "s3"
 [[r2_buckets]]
 binding = "STORAGE"
 bucket_name = "mie-ayam-assets"
-
-[site]
-bucket = "./public"
-entry-point = "workers-site"
