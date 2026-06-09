@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Attributes\Table;
 
+use Illuminate\Support\Facades\Storage;
+
 #[Table('menus')]
 class Menu extends Model
 {
@@ -41,9 +43,16 @@ class Menu extends Model
      */
     public function getImageUrlAttribute(): string
     {
-        if ($this->image_path && file_exists(public_path($this->image_path))) {
-            return asset($this->image_path);
+        if ($this->image_path) {
+            // Check if it's a full URL (external) or a path
+            if (filter_var($this->image_path, FILTER_VALIDATE_URL)) {
+                return $this->image_path;
+            }
+            
+            // If it's a relative path, use Storage
+            return Storage::disk(env('FILESYSTEM_DISK', 'public'))->url($this->image_path);
         }
+        
         return asset('images/default-menu.jpg');
     }
 }

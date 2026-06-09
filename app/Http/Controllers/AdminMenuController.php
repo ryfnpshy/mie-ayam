@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class AdminMenuController extends Controller
 {
@@ -42,9 +42,7 @@ class AdminMenuController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imageName = time() . '_' . uniqid() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $imagePath = 'images/' . $imageName;
+            $imagePath = $request->file('image')->store('menus', 'public');
         }
 
         Menu::create([
@@ -86,13 +84,11 @@ class AdminMenuController extends Controller
         $imagePath = $menu->image_path;
         if ($request->hasFile('image')) {
             // Delete old image if it exists
-            if ($imagePath && File::exists(public_path($imagePath))) {
-                File::delete(public_path($imagePath));
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath);
             }
 
-            $imageName = time() . '_' . uniqid() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $imagePath = 'images/' . $imageName;
+            $imagePath = $request->file('image')->store('menus', 'public');
         }
 
         $menu->update([
