@@ -18,12 +18,24 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Clear existing data to avoid duplicates or confusion
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Menu::truncate();
-        AddOn::truncate();
-        Setting::truncate();
-        Admin::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            Menu::truncate();
+            AddOn::truncate();
+            Setting::truncate();
+            Admin::truncate();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        } elseif (DB::getDriverName() === 'pgsql') {
+            DB::statement('TRUNCATE TABLE menus CASCADE;');
+            DB::statement('TRUNCATE TABLE add_ons CASCADE;');
+            DB::statement('TRUNCATE TABLE settings CASCADE;');
+            DB::statement('TRUNCATE TABLE admins CASCADE;');
+        } else {
+            Menu::truncate();
+            AddOn::truncate();
+            Setting::truncate();
+            Admin::truncate();
+        }
 
         // 1. Seed Admin
         Admin::create([
