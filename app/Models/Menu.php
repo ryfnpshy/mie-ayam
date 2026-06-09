@@ -50,7 +50,7 @@ class Menu extends Model
             }
             
             // If it's a relative path, use Storage
-            return Storage::disk(env('FILESYSTEM_DISK', 'public'))->url($this->image_path);
+            return Storage::disk('supabase')->url($this->image_path);
         }
         
         return asset('images/default-menu.jpg');

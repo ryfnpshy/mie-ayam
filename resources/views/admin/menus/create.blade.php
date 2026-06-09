@@ -100,13 +100,50 @@
 
             <!-- Image Upload -->
             <div>
-                <label for="image" class="input-label">Foto Menu (JPG/PNG/WEBP, Max 2MB)</label>
-                <input type="file"
-                       name="image"
-                       id="image"
-                       class="w-full text-xs p-2 border border-warm-200 rounded-xl bg-warm-50 focus:outline-none focus:border-brand-600 @error('image') border-brand-600 @enderror"
-                       aria-describedby="{{ $errors->has('image') ? 'image-error' : '' }}"
-                       aria-invalid="{{ $errors->has('image') ? 'true' : 'false' }}">
+                <label for="image" class="input-label">Foto Menu (JPG/PNG/WEBP, Max 5MB)</label>
+                <div id="drop-zone" class="relative group cursor-pointer border-2 border-dashed border-warm-200 rounded-2xl p-6 bg-warm-50 hover:bg-white hover:border-brand-600 transition-all duration-300">
+                    <input type="file"
+                           name="image"
+                           id="image"
+                           accept="image/jpeg,image/png,image/webp,image/gif"
+                           class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                    
+                    <div class="flex flex-col items-center justify-center text-center space-y-2 pointer-events-none">
+                        <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-cloud-arrow-up text-warm-400 group-hover:text-brand-600 transition-colors"></i>
+                        </div>
+                        <div class="space-y-0.5">
+                            <p class="text-xs font-bold text-warm-800">Tarik dan lepas gambar di sini</p>
+                            <p class="text-[10px] text-warm-400">Atau klik untuk memilih file dari komputer</p>
+                        </div>
+                        <p class="text-[9px] text-warm-300">Maksimal 5MB (JPEG, PNG, WebP, GIF)</p>
+                    </div>
+
+                    <!-- Preview Container -->
+                    <div id="preview-container" class="hidden relative mt-4">
+                        <div class="relative w-full h-40 rounded-xl overflow-hidden border border-warm-100 shadow-sm">
+                            <img id="image-preview" src="#" alt="Preview" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <span class="text-[10px] text-white font-bold bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-sm">Ganti Gambar</span>
+                            </div>
+                        </div>
+                        <button type="button" id="remove-preview" class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-md hover:bg-brand-700 transition-colors z-20">
+                            <i class="fa-solid fa-xmark text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div id="upload-progress-container" class="hidden mt-3 space-y-1.5">
+                    <div class="flex items-center justify-between text-[10px]">
+                        <span class="font-bold text-warm-800">Sedang mengunggah...</span>
+                        <span id="upload-percentage" class="text-brand-600 font-extrabold">0%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-warm-100 rounded-full overflow-hidden">
+                        <div id="upload-progress-bar" class="h-full bg-brand-600 w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+
                 @error('image')
                     <p id="image-error" class="text-xs text-brand-700 mt-1.5 flex items-center gap-1" role="alert">
                         <i class="fa-solid fa-circle-exclamation text-[10px]"></i>
@@ -143,10 +180,87 @@
 </div>
 
 <script>
-    document.getElementById("create-menu-form").addEventListener("submit", function() {
-        const btn = document.getElementById("submit-btn");
-        btn.classList.add("btn-loading");
-        btn.disabled = true;
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('image');
+        const dropZone = document.getElementById('drop-zone');
+        const previewContainer = document.getElementById('preview-container');
+        const previewImage = document.getElementById('image-preview');
+        const removeBtn = document.getElementById('remove-preview');
+        const dropZoneContent = dropZone.querySelector('.flex.flex-col');
+        const progressBarContainer = document.getElementById('upload-progress-container');
+        const progressBar = document.getElementById('upload-progress-bar');
+        const progressText = document.getElementById('upload-percentage');
+
+        // Preview image
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validation
+                const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Format file tidak didukung. Gunakan JPEG, PNG, WebP, atau GIF.');
+                    this.value = '';
+                    return;
+                }
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Ukuran file terlalu besar. Maksimal 5MB.');
+                    this.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImage.src = event.target.result;
+                    previewContainer.classList.remove('hidden');
+                    dropZoneContent.classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Remove preview
+        removeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            fileInput.value = '';
+            previewContainer.classList.add('hidden');
+            dropZoneContent.classList.remove('hidden');
+        });
+
+        // Form submit loading
+        document.getElementById("create-menu-form").addEventListener("submit", function(e) {
+            const btn = document.getElementById("submit-btn");
+            
+            // Show fake progress for UX
+            if (fileInput.files.length > 0) {
+                progressBarContainer.classList.remove('hidden');
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 30;
+                    if (progress > 95) {
+                        progress = 95;
+                        clearInterval(interval);
+                    }
+                    progressBar.style.width = progress + '%';
+                    progressText.innerText = Math.floor(progress) + '%';
+                }, 400);
+            }
+
+            btn.classList.add("btn-loading");
+            btn.disabled = true;
+        });
+
+        // Drag and drop visual feedback
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.add('border-brand-600', 'bg-white');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('border-brand-600', 'bg-white');
+            }, false);
+        });
     });
 </script>
 @endsection

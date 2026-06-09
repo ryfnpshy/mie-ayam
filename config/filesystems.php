@@ -60,15 +60,15 @@ return [
             'report' => false,
         ],
 
-        'r2' => [
+        'supabase' => [
             'driver' => 's3',
-            'key' => env('CLOUDFLARE_R2_ACCESS_KEY_ID'),
-            'secret' => env('CLOUDFLARE_R2_SECRET_ACCESS_KEY'),
-            'region' => 'auto',
-            'bucket' => env('CLOUDFLARE_R2_BUCKET'),
-            'url' => env('CLOUDFLARE_R2_URL'),
-            'endpoint' => env('CLOUDFLARE_R2_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'key' => env('SUPABASE_STORAGE_ACCESS_KEY_ID'),
+            'secret' => env('SUPABASE_STORAGE_SECRET_ACCESS_KEY'),
+            'region' => env('SUPABASE_STORAGE_REGION', 'ap-southeast-1'),
+            'bucket' => env('SUPABASE_STORAGE_BUCKET'),
+            'url' => env('SUPABASE_URL') . '/storage/v1/object/public/' . env('SUPABASE_STORAGE_BUCKET'),
+            'endpoint' => env('SUPABASE_STORAGE_ENDPOINT'),
+            'use_path_style_endpoint' => true,
             'throw' => false,
             'report' => false,
         ],

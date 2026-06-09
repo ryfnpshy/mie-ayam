@@ -42,7 +42,7 @@ class AdminMenuController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('menus', 'public');
+            $imagePath = $request->file('image')->store('menus', 'supabase');
         }
 
         Menu::create([
@@ -83,12 +83,12 @@ class AdminMenuController extends Controller
 
         $imagePath = $menu->image_path;
         if ($request->hasFile('image')) {
-            // Delete old image if it exists
-            if ($imagePath) {
-                Storage::disk('public')->delete($imagePath);
+            // Delete old image if it exists in Supabase
+            if ($imagePath && !str_contains($imagePath, 'default-menu.jpg')) {
+                Storage::disk('supabase')->delete($imagePath);
             }
 
-            $imagePath = $request->file('image')->store('menus', 'public');
+            $imagePath = $request->file('image')->store('menus', 'supabase');
         }
 
         $menu->update([
