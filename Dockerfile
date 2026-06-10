@@ -15,7 +15,7 @@ COPY --chown=www-data:www-data . .
 
 # Install PHP dependencies
 USER www-data
-RUN composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction
+RUN composer install --no-dev --optimize-autoloader --prefer-source --no-interaction
 
 # Build assets (Vite)
 USER root
