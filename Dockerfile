@@ -1,5 +1,5 @@
 # Base image
-FROM serversideup/php:8.3-fpm-nginx
+FROM serversideup/php:8.4-fpm-nginx
 
 # Set working directory
 WORKDIR /var/www/html
