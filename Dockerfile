@@ -25,9 +25,7 @@ RUN npm install && npm run build
 
 # Final touches
 USER root
-RUN php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
+RUN php artisan view:cache
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
