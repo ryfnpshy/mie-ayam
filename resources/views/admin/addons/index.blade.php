@@ -2,6 +2,8 @@
 
 @section('title', 'Kelola Topping - Bakmi Ayam Kembar')
 
+@section('page-skeleton', 'menu-table')
+
 @section('content')
 <div class="page-container-sm py-6">
     <div class="mb-6 flex items-start justify-between">
@@ -153,8 +155,7 @@
         form.addEventListener('submit', function() {
             const btn = this.querySelector('button[type="submit"]');
             if (btn) {
-                btn.classList.add('btn-loading');
-                btn.disabled = true;
+                window.BakmiLoading?.setButtonLoading(btn);
             }
         });
     });

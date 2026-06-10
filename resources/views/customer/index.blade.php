@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Bakmi Ayam Kembar - Pesan Online')
+@section('page-skeleton', 'customer-home')
 
 @section('content')
 
@@ -1001,6 +1002,7 @@
                     toast.innerHTML = `<i class="fa-solid fa-sync fa-spin"></i> Daftar menu diperbarui…`;
                     document.body.appendChild(toast);
 
+                    window.BakmiLoading?.showPageSkeleton();
                     setTimeout(() => window.location.reload(), 2000);
                 }
             });

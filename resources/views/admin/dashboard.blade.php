@@ -2,6 +2,8 @@
 
 @section('title', 'Dashboard Admin – Bakmi Ayam Kembar')
 
+@section('page-skeleton', 'admin-dashboard')
+
 @section('content')
 <div class="page-container py-6 space-y-6">
 
@@ -411,12 +413,13 @@
     function refreshDashboard() {
         const btn = document.getElementById("refresh-btn");
         btn.querySelector("i").classList.add("animate-spin");
-        window.location.reload();
+        window.BakmiLoading?.showPageSkeleton();
+        window.setTimeout(() => window.location.reload(), 80);
     }
 
     // Loading state for operational form
     document.getElementById("operational-form").addEventListener("submit", () => {
-        document.getElementById("operational-btn").classList.add("btn-loading");
+        window.BakmiLoading?.setButtonLoading(document.getElementById("operational-btn"));
     });
 
     // GPS Calibration
@@ -424,14 +427,12 @@
         const btn    = document.getElementById("calibrate-btn");
         const status = document.getElementById("calibrate-status");
 
-        btn.classList.add("btn-loading");
-        btn.disabled = true;
+        window.BakmiLoading?.setButtonLoading(btn, { label: 'Kalibrasi Titik GPS' });
         status.textContent = "Mengambil koordinat perangkat…";
 
         if (!navigator.geolocation) {
             status.textContent = "Geolocation tidak didukung browser ini.";
-            btn.classList.remove("btn-loading");
-            btn.disabled = false;
+            window.BakmiLoading?.clearButtonLoading(btn);
             return;
         }
 
@@ -465,16 +466,14 @@
                     status.style.color = "#c11414";
                 })
                 .finally(() => {
-                    btn.classList.remove("btn-loading");
-                    btn.disabled = false;
+                    window.BakmiLoading?.clearButtonLoading(btn);
                 });
             },
             (err) => {
                 console.error("GPS Error:", err);
                 status.textContent = "Izin lokasi ditolak. Aktifkan GPS di browser.";
                 status.style.color = "#c11414";
-                btn.classList.remove("btn-loading");
-                btn.disabled = false;
+                window.BakmiLoading?.clearButtonLoading(btn);
             },
             { enableHighAccuracy: true }
         );
@@ -511,12 +510,15 @@
                     if (newOrderCount > lastPendingCount) {
                         playNotificationChime();
                         showDashboardAlert("Ada pesanan baru masuk! Halaman akan diperbarui…", "#e51d1d");
+                        window.BakmiLoading?.showPageSkeleton();
                         setTimeout(() => window.location.reload(), 2200);
                     } else if (newReviewCount > lastReviewCount) {
                         playNotificationChime();
                         showDashboardAlert("Ada ulasan baru dari pelanggan! Halaman akan diperbarui…", "#f59e0b");
+                        window.BakmiLoading?.showPageSkeleton();
                         setTimeout(() => window.location.reload(), 2200);
                     } else if (newOrderCount !== lastPendingCount) {
+                        window.BakmiLoading?.showPageSkeleton();
                         window.location.reload();
                     }
                     

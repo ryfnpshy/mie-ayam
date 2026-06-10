@@ -28,7 +28,10 @@
 
     @stack('head')
 </head>
-<body class="flex flex-col min-h-dvh bg-[#fafaf9] text-[#1c1917]">
+@php
+    $pageSkeleton = trim($__env->yieldContent('page-skeleton', 'default'));
+@endphp
+<body class="flex flex-col min-h-dvh bg-[#fafaf9] text-[#1c1917]" data-page-skeleton="{{ $pageSkeleton }}">
 
     <!-- =============================
          TOAST NOTIFICATIONS
@@ -113,12 +116,13 @@
                             <span class="hidden sm:inline">Keluar</span>
                         </button>
                     </form>
-                @else
+                @endauth
+                @guest
                     <a href="{{ route('login') }}" class="btn btn-ghost btn-sm text-[#78716c] hover:text-[#1c1917]">
                         <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
                         <span class="hidden sm:inline">Admin</span>
                     </a>
-                @endauth
+                @endguest
             </nav>
 
         </div>
@@ -130,6 +134,8 @@
     <main class="flex-grow" id="main-content" tabindex="-1">
         @yield('content')
     </main>
+
+    @include('partials.page-skeleton', ['variant' => $pageSkeleton])
 
     <!-- =============================
          FOOTER

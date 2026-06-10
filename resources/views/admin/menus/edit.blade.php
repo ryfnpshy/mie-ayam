@@ -2,6 +2,8 @@
 
 @section('title', 'Edit Menu - Bakmi Ayam Kembar')
 
+@section('page-skeleton', 'auth')
+
 @section('content')
 <div class="page-container-sm py-6">
     <div class="mb-6">
@@ -156,8 +158,7 @@
 <script>
     document.getElementById("edit-menu-form").addEventListener("submit", function() {
         const btn = document.getElementById("submit-btn");
-        btn.classList.add("btn-loading");
-        btn.disabled = true;
+        window.BakmiLoading?.setButtonLoading(btn, { label: 'Perbarui Detail Menu' });
     });
 </script>
 @endsection

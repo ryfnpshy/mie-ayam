@@ -2,6 +2,8 @@
 
 @section('title', 'Pusat Notifikasi & Log Aktivitas - Admin Bakmi Ayam Kembar')
 
+@section('page-skeleton', 'notifications')
+
 @section('content')
 <div class="page-container py-6">
     <!-- Header -->

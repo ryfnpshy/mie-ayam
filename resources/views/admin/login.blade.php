@@ -2,6 +2,8 @@
 
 @section('title', 'Login Admin – Bakmi Ayam Kembar')
 
+@section('page-skeleton', 'auth')
+
 @section('content')
 <div class="min-h-[calc(100dvh-60px)] flex items-center justify-center p-4 bg-gradient-to-br from-[#1c1917] via-[#292524] to-[#1c1917]">
 
@@ -124,8 +126,7 @@
     // Loading state on submit
     document.getElementById("login-form").addEventListener("submit", function() {
         const btn = document.getElementById("login-btn");
-        btn.classList.add("btn-loading");
-        btn.disabled = true;
+        window.BakmiLoading?.setButtonLoading(btn, { label: 'Masuk ke Panel Admin' });
     });
 
     // Password toggle

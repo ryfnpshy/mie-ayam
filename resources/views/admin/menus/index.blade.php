@@ -2,6 +2,8 @@
 
 @section('title', 'Kelola Menu – Bakmi Ayam Kembar')
 
+@section('page-skeleton', 'menu-table')
+
 @section('content')
 <div class="page-container py-6">
 

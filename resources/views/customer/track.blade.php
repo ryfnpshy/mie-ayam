@@ -2,6 +2,8 @@
 
 @section('title', 'Lacak Pesanan #' . $order->order_number . ' – Bakmi Ayam Kembar')
 
+@section('page-skeleton', 'tracking')
+
 @section('content')
 <div class="page-container-sm py-6 space-y-4">
 
@@ -347,6 +349,7 @@
                     const doc    = parser.parseFromString(html, "text/html");
                     const newSnap = doc.querySelector(".pipeline-track")?.innerHTML ?? "";
                     if (newSnap && newSnap !== pipelineSnapshot) {
+                        window.BakmiLoading?.showPageSkeleton();
                         window.location.reload();
                     }
                 })

@@ -4,15 +4,21 @@
     <div class="flex items-start justify-between gap-2 mb-2">
         <div>
             <h4 class="font-extrabold text-sm text-[#1c1917]">#{{ $order->order_number }}</h4>
-            @if(in_array($order->status, ['paid','processing','shipped']))
+            @if(in_array($order->status, ['paid', 'processing', 'shipped']))
                 <span class="badge mt-1
-                    @if($order->status === 'paid')       badge-yellow
-                    @elseif($order->status === 'processing') badge-orange
-                    @elseif($order->status === 'shipped')    badge-blue
+                    @if($order->status === 'paid')
+                        badge-yellow
+                    @elseif($order->status === 'processing')
+                        badge-orange
+                    @elseif($order->status === 'shipped')
+                        badge-blue
                     @endif">
-                    @if($order->status === 'paid')       💳 Lunas
-                    @elseif($order->status === 'processing') 🔥 Dimasak
-                    @elseif($order->status === 'shipped')    🏍️ Dikirim
+                    @if($order->status === 'paid')
+                        💳 Lunas
+                    @elseif($order->status === 'processing')
+                        🔥 Dimasak
+                    @elseif($order->status === 'shipped')
+                        🏍️ Dikirim
                     @endif
                 </span>
             @endif

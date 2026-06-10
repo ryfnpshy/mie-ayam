@@ -2,6 +2,8 @@
 
 @section('title', 'Tambah Menu Baru - Bakmi Ayam Kembar')
 
+@section('page-skeleton', 'auth')
+
 @section('content')
 <div class="page-container-sm py-6">
     <div class="mb-6">
@@ -245,8 +247,7 @@
                 }, 400);
             }
 
-            btn.classList.add("btn-loading");
-            btn.disabled = true;
+            window.BakmiLoading?.setButtonLoading(btn, { label: 'Simpan Menu Baru' });
         });
 
         // Drag and drop visual feedback
