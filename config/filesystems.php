@@ -62,15 +62,15 @@ return [
 
         'supabase' => [
             'driver' => 's3',
-            'key' => env('SUPABASE_STORAGE_ACCESS_KEY_ID'),
-            'secret' => env('SUPABASE_STORAGE_SECRET_ACCESS_KEY'),
-            'region' => env('SUPABASE_STORAGE_REGION', 'ap-southeast-1'),
-            'bucket' => env('SUPABASE_STORAGE_BUCKET'),
-            'url' => env('SUPABASE_URL') . '/storage/v1/object/public/' . env('SUPABASE_STORAGE_BUCKET'),
-            'endpoint' => env('SUPABASE_STORAGE_ENDPOINT'),
+            'key' => env('SUPABASE_STORAGE_ACCESS_KEY_ID', ''),
+            'secret' => env('SUPABASE_STORAGE_SECRET_ACCESS_KEY', ''),
+            'region' => env('SUPABASE_STORAGE_REGION', 'us-east-1'),
+            'bucket' => env('SUPABASE_STORAGE_BUCKET', 'mie-ayam-assets'),
+            'url' => rtrim(env('SUPABASE_URL') ?: 'https://ydhgkmeccfcxssiumsvf.supabase.co', '/') . '/storage/v1/object/public/' . env('SUPABASE_STORAGE_BUCKET', 'mie-ayam-assets'),
+            'endpoint' => env('SUPABASE_STORAGE_ENDPOINT', 'https://ydhgkmeccfcxssiumsvf.supabase.co/storage/v1/s3'),
             'use_path_style_endpoint' => true,
-            'throw' => false,
-            'report' => false,
+            'throw' => true,
+            'report' => true,
         ],
 
     ],

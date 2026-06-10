@@ -110,10 +110,11 @@
                     </div>
                 </div>
                 
-                <label for="image" class="input-label">Unggah Foto Baru (JPG/PNG/WEBP, Max 2MB)</label>
+                <label for="image" class="input-label">Unggah Foto Baru (JPG/PNG/WEBP, Max 5MB)</label>
                 <input type="file"
                        name="image"
                        id="image"
+                       accept="image/jpeg,image/png,image/webp"
                        class="w-full text-xs p-2 border border-warm-200 rounded-xl bg-warm-50 focus:outline-none focus:border-brand-600 @error('image') border-brand-600 @enderror"
                        aria-describedby="{{ $errors->has('image') ? 'image-error' : '' }}"
                        aria-invalid="{{ $errors->has('image') ? 'true' : 'false' }}">

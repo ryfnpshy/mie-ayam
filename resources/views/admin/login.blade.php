@@ -35,7 +35,7 @@
                                required
                                autocomplete="username"
                                placeholder="Masukkan username"
-                               class="input pl-10 @error('username') border-[#e51d1d] ring-2 ring-[#e51d1d]/20 @enderror"
+                               class="input input-has-icon-left @error('username') border-[#e51d1d] ring-2 ring-[#e51d1d]/20 @enderror"
                                value="{{ old('username') }}"
                                aria-describedby="{{ $errors->has('username') ? 'username-error' : '' }}"
                                aria-invalid="{{ $errors->has('username') ? 'true' : 'false' }}">
@@ -61,7 +61,7 @@
                                required
                                autocomplete="current-password"
                                placeholder="Masukkan password"
-                               class="input pl-10 pr-10 @error('password') border-[#e51d1d] ring-2 ring-[#e51d1d]/20 @enderror"
+                               class="input input-has-icon-left input-has-icon-right @error('password') border-[#e51d1d] ring-2 ring-[#e51d1d]/20 @enderror"
                                aria-describedby="{{ $errors->has('password') ? 'password-error' : '' }}"
                                aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}">
                         {{-- Toggle password visibility --}}

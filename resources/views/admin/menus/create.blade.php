@@ -105,7 +105,7 @@
                     <input type="file"
                            name="image"
                            id="image"
-                           accept="image/jpeg,image/png,image/webp,image/gif"
+                           accept="image/jpeg,image/png,image/webp"
                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                     
                     <div class="flex flex-col items-center justify-center text-center space-y-2 pointer-events-none">
@@ -116,7 +116,7 @@
                             <p class="text-xs font-bold text-warm-800">Tarik dan lepas gambar di sini</p>
                             <p class="text-[10px] text-warm-400">Atau klik untuk memilih file dari komputer</p>
                         </div>
-                        <p class="text-[9px] text-warm-300">Maksimal 5MB (JPEG, PNG, WebP, GIF)</p>
+                        <p class="text-[9px] text-warm-300">Maksimal 5MB (JPEG, PNG, WebP)</p>
                     </div>
 
                     <!-- Preview Container -->
@@ -196,9 +196,9 @@
             const file = e.target.files[0];
             if (file) {
                 // Validation
-                const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+                const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
                 if (!validTypes.includes(file.type)) {
-                    alert('Format file tidak didukung. Gunakan JPEG, PNG, WebP, atau GIF.');
+                    alert('Format file tidak didukung. Gunakan JPEG, PNG, atau WebP.');
                     this.value = '';
                     return;
                 }
